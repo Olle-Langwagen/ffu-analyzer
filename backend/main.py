@@ -63,9 +63,38 @@ def chat(body: dict):
             },
         },
     }]
+
+    responseStructure = {
+        "type": "json_schema",
+        "json_schema": {
+            "name": "ffu_analysis",
+            "schema": {
+                "type": "object",
+                "properties": {
+                    "answer": {
+                        "type": "string", 
+                        "description": "Det direkta svaret på användarens fråga baserat på dokumenten."
+                    },
+                    "important_dates": {
+                        "type": "array",
+                        "items": {"type": "string"},
+                        "description": "Lista på eventuella viktiga datum eller deadlines som nämns i kontexten. Lämna tom om inga finns."
+                    },
+                    "risks": {
+                        "type": "array",
+                        "items": {"type": "string"},
+                        "description": "Lista på potentiella risker, viten eller strikta krav. Lämna tom om inga finns."
+                    }
+                },
+                "required": ["answer", "important_dates", "risks"],
+                "additionalProperties": False
+            },
+            "strict": True
+        }
+    }
     try:
         for _ in range(10):
-            resp = client.chat.completions.create(model="gpt-5.4", messages=messages, tools=tools, tool_choice="auto")
+            resp = client.chat.completions.create(model="gpt-5.4", messages=messages, tools=tools, tool_choice="auto", response_format=responseStructure)
             msg = resp.choices[0].message
             if not msg.tool_calls:
                 return {"response": msg.content or ""}

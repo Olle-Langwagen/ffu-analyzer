@@ -46,9 +46,53 @@ function App() {
         <button onClick={processFfu} style={ui.field}>Process FFU</button>
         <div>{status}</div>
         <div style={ui.chat}>
-          {messages.map((message, i) => (
-            <div key={i} style={{ ...ui.msg, ...(message.role === 'user' ? ui.user : ui.assistant) }}>{message.content}</div>
-          ))}
+          {messages.map((message, i) => {
+            if (message.role === 'user') { // make sure to not parse user messages
+              return <div key={i} style={{ ...ui.msg, ...ui.user }}>{message.content}</div>
+            }
+
+            let parsed = null; // Try parse response as JSON
+            try {
+              parsed = JSON.parse(message.content);
+            } catch (e) {
+              // Not JSON
+              return <div key={i} style={{ ...ui.msg, ...ui.assistant }}>{message.content}</div>
+            }
+
+            return (
+              <div key={i} style={{ ...ui.msg, ...ui.assistant, display: 'flex', flexDirection: 'column', gap: '12px' }}>
+
+                {/* Main text response */}
+                <div>{parsed.answer}</div>
+
+                {/* Dates, as list */}
+                {parsed.important_dates && parsed.important_dates.length > 0 && (
+                  <div>
+                    <strong>Viktiga datum</strong>
+                    <ul>
+                      {parsed.important_dates.map((datum: string, idx: number) => (
+                        <li key={idx}>{datum}</li>
+                      ))}
+                    </ul>
+                  </div>
+                )}
+
+                {/* Risks, as list */}
+                {parsed.risks && parsed.risks.length > 0 && (
+                  <div>
+                    <strong>Risker & krav</strong>
+                    <ul>
+                      {parsed.risks.map((risk: string, idx: number) => (
+                        <li key={idx}>{risk}</li>
+                      ))}
+                    </ul>
+                  </div>
+                )}
+
+              </div>
+            )
+          })}
+
           {thinking && <div style={{ ...ui.msg, ...ui.assistant, color: '#666' }}>Thinking...</div>}
         </div>
         <form onSubmit={send} style={ui.form}>
