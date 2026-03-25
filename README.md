@@ -1,6 +1,8 @@
 # FFU Analyzer
 
-## What i build
+#Live at: https://zooming-embrace-production.up.railway.app/
+
+## What i built
 
 I implemented structured outputs for the analyzer. This forces the LLM to respond with a specific JSON format. Right now it includes the main response, a list of dates mentioned in the text, and a list of risks mentioned in the text.
 
