@@ -1,6 +1,6 @@
 # FFU Analyzer
 
-#Live at: https://zooming-embrace-production.up.railway.app/
+Live at: https://zooming-embrace-production.up.railway.app/
 
 ## What i built
 
