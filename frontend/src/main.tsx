@@ -20,7 +20,7 @@ function App() {
 
   const processFfu = async () => {
     setStatus('Processing...')
-    const data = await fetch('/api/process', { method: 'POST' }).then((r) => r.json())
+    const data = await fetch('https://ffu-analyzer-production-d622.up.railway.app/process', { method: 'POST' }).then((r) => r.json())
     setStatus(`${data.status}: ${data.count} document(s) processed`)
   }
 
@@ -31,7 +31,7 @@ function App() {
     setInput('')
     setThinking(true)
     setMessages([...history, { role: 'user', content: input.trim() }])
-    const data = await fetch('/api/chat', {
+    const data = await fetch('https://ffu-analyzer-production-d622.up.railway.app/chat', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ message: input.trim(), history }),
