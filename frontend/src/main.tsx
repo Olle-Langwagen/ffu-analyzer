@@ -228,7 +228,7 @@ function App() {
     try {
       
       //
-      const response = await fetch('//https://ffu-analyzer-production-d622.up.railway.app/chat', {
+      const response = await fetch('https://ffu-analyzer-production-d622.up.railway.app/chat', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ message: userMessage, history, stream: true }),
