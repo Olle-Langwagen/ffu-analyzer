@@ -1,15 +1,24 @@
 # FFU Analyzer
 
-## What i build
+## Live at: https://zooming-embrace-production.up.railway.app/
 
-I implemented structured outputs for the analyzer. This forces the LLM to respond with a specific JSON format. Right now it includes the main response, a list of dates mentioned in the text, and a list of risks mentioned in the text.
+## What i built
 
-## Why i built it
+I implemented streaming chat with using SSE. The backend now resolves `read_document` tool calls in the background and only streams the final answer text to the frontend.
 
-The output from the LLM was unstructed text, which made it difficult to see the most important things. By implementing structured outputs, i can easily extract the most important information and present it in a more user-friendly way. It is barebones right now, but it is a good starting point for further development.
+I also implemented a structured response format for the final output (`answer`, `important_dates`, `risks`) so the UI can render the result in sections.
 
-## What i would to next
+## Most important updates
 
-I would add better structure for the JSON format. For example, the risks could be categorized into different types of risks, and the dates could be categorized into different types of dates e.g. deadlines, events, etc. I would also add more information to the JSON format, such as the severity of the risks and the importance of the dates.
-<br><br>
-I would also like to build a better frontend to display the output from the LLM. Right now it's just simple lists. There could be a more visual way to display the risks and dates, such as a timeline for the dates. Or maybe a chart for the risks.
+- SSE streaming in `/chat` with token-by-token rendering
+- Structured event for streaming events
+- Structured response for final output, with fields for important dates and risks
+- Frontend streaming parser with sequence handling and live UI updates
+- Improved chat UX: dynamic thinking state, smart auto-scroll
+- Themed UI (colors, typography, scrollbar)
+
+## What i would do next
+
+I would add fact-checking and retrieval capabilities to the agent so it can validate its own claims and cite specific sections of the contract. This would make the tool more trustworthy and useful.
+
+I would also implement a more advanced UI with better formatting, such as highlighting important dates and risks, and allowing users to click on cited sections of the contract for more details.
